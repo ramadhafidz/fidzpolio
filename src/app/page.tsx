@@ -1,7 +1,17 @@
+import { Hero } from '@/components/sections/Hero';
+import { About } from '@/components/sections/About';
+import { Projects } from '@/components/sections/Projects';
+import { Skills } from '@/components/sections/Skills';
+import { Contact } from '@/components/sections/Contact';
+
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-[#fafafa] grid place-items-center">
-      <h1 className="text-4xl">Ramadhafidz</h1>
+    <main>
+      <Hero />
+      <About />
+      <Projects />
+      <Skills />
+      <Contact />
     </main>
   );
 }

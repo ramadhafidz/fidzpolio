@@ -43,10 +43,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${syne.variable} ${spaceGrotesk.variable}`}>
       <body className="bg-bg-primary text-text-secondary antialiased">
+        <CustomCursor />
         <SmoothScroll>
-          <CustomCursor />
           <Navbar />
-          <main className="flex-1">{children}</main>
+          {children}
           <Footer />
         </SmoothScroll>
       </body>
