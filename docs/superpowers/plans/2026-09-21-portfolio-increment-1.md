@@ -695,15 +695,15 @@ describe('getGsap', () => {
     const { gsap, ScrollTrigger } = getGsap();
     expect(gsap).toBeDefined();
     expect(ScrollTrigger).toBeDefined();
-    // corePlugins lists registered plugins
-    expect(gsap.core.plugins.length).toBeGreaterThan(0);
+    // gsap.plugins is the GSAP 3 plugin registry
+    expect(Object.keys(gsap.plugins).length).toBeGreaterThan(0);
   });
 
   it('is idempotent — repeated calls do not re-register', () => {
     const a = getGsap();
-    const countAfterFirst = a.gsap.core.plugins.length;
+    const countAfterFirst = Object.keys(a.gsap.plugins).length;
     const b = getGsap();
-    expect(b.gsap.core.plugins.length).toBe(countAfterFirst);
+    expect(Object.keys(b.gsap.plugins).length).toBe(countAfterFirst);
     expect(b.gsap).toBe(a.gsap);
   });
 });
@@ -728,6 +728,7 @@ Expected: FAIL — module `../gsap` not found.
 ```ts
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import { prefersReducedMotion } from './utils';
 
 let registered = false;
