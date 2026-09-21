@@ -1,3 +1,76 @@
 @import 'tailwindcss';
 
 @source '../../src/**/*';
+
+/* Design tokens — spec: "Design Tokens" section, verbatim values */
+@theme {
+  --color-bg-primary: #0a0a0a;
+  --color-bg-secondary: #141414;
+  --color-text-primary: #fafafa;
+  --color-text-secondary: #d4d4d4;
+  --color-text-muted: #737373;
+  --color-accent: #00f0ff;
+  --color-accent-glow: rgba(0, 240, 255, 0.15);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 0.3s;
+  --duration-normal: 0.6s;
+  --duration-slow: 1.2s;
+
+  --font-display: var(--font-syne), sans-serif;
+  --font-sans: var(--font-space-grotesk), sans-serif;
+}
+
+:root {
+  --section-padding: clamp(4rem, 10vh, 8rem);
+  --content-max-width: 1200px;
+  --blog-max-width: 720px;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis owns scrolling */
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-bg-primary);
+}
+
+/* Grain overlay — CSS-only per spec (no image asset) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Custom cursor: dot is rendered by <CustomCursor />; this hides the
+   native cursor only when a pointer is available. */
+@media (hover: hover) and (pointer: fine) {
+  * {
+    cursor: none;
+  }
+}
+
+/* Reduced motion: never leave content hidden in a start state. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
