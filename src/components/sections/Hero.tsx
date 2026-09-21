@@ -38,7 +38,7 @@ export function Hero() {
         className="font-display text-[clamp(3rem,12vw,10rem)] font-extrabold leading-[0.9] text-text-primary"
       >
         <span className="sr-only">Ramadhafidz</span>
-        <span ref={nameRef} aria-hidden>Ramadhafidz</span>
+        <span ref={nameRef}>Ramadhafidz</span>
       </h1>
 
       <p

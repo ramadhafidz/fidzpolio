@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import { getGsap, EASE, DURATION } from '@/lib/gsap';
+import { prefersReducedMotion } from '@/lib/utils';
 
 export interface SplitRevealOptions {
   type?: 'chars' | 'lines';
@@ -32,6 +33,11 @@ export function useSplitReveal<T extends HTMLElement = HTMLHeadingElement>(
       const { gsap } = getGsap();
       const el = ref.current;
       if (!el || !el.textContent) return;
+
+      // Reduced motion: leave the text node untouched and fully visible.
+      // Splitting into aria-hidden spans here would hide it from assistive
+      // tech with no animation to justify that cost.
+      if (prefersReducedMotion()) return;
 
       if (type === 'lines') {
         const lines = Array.from(el.querySelectorAll<HTMLElement>('[data-line]'));
