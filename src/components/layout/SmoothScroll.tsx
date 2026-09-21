@@ -46,6 +46,10 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       ref={lenisRef}
       options={{
         lerp: 0.1,
+        // Lenis would otherwise schedule its own requestAnimationFrame loop
+        // on top of the one we drive from the GSAP ticker below, advancing
+        // scroll on a different clock than ScrollTrigger reads it.
+        autoRaf: false,
       }}
     >
       {children}

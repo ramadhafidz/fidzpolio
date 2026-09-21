@@ -21,6 +21,17 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Escape closes the open menu. Keyboard and AT users cannot see the
+  // overlay while it is visually hidden, so it must not stay reachable.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
+
   return (
     <header
       className={cn(
@@ -66,6 +77,7 @@ export function Navbar() {
           type="button"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
           onClick={() => setMenuOpen((v) => !v)}
           className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
           data-cursor="hover"
@@ -93,6 +105,14 @@ export function Navbar() {
 
       {/* Mobile overlay menu */}
       <div
+        id="mobile-menu"
+        // While closed the links must not be focusable or exposed to AT —
+        // opacity/pointer-events alone leave them in the tab order. `hidden`
+        // drops them from the a11y tree and removes them from focus order;
+        // `inert` is belt-and-braces for browsers that ignore `hidden`
+        // inside a flex container.
+        hidden={!menuOpen}
+        inert={!menuOpen}
         className={cn(
           'fixed inset-0 top-0 z-[-1] flex flex-col items-center justify-center gap-8',
           'bg-bg-primary transition-opacity duration-normal md:hidden',

@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import { getGsap } from '@/lib/gsap';
+import { prefersReducedMotion } from '@/lib/utils';
 
 export interface HorizontalPinOptions {
   /** Selector for the track that translates horizontally. */
@@ -14,7 +15,9 @@ export interface HorizontalPinOptions {
 /**
  * Pins a section and translates an inner track horizontally as the user
  * scrolls. Disabled below `minWidth`, where the track must already be
- * laid out as a vertical stack by CSS.
+ * laid out as a vertical stack by CSS. Also skipped under
+ * prefers-reduced-motion, where pinning and translating would fight the
+ * native scroll the user asked for.
  */
 export function useHorizontalPin<T extends HTMLElement = HTMLElement>(
   options: HorizontalPinOptions,
@@ -24,10 +27,14 @@ export function useHorizontalPin<T extends HTMLElement = HTMLElement>(
 
   useGSAP(
     () => {
-      const { gsap, ScrollTrigger } = getGsap();
+      const { gsap } = getGsap();
       const section = ref.current;
       const track = section?.querySelector<HTMLElement>(trackSelector);
       if (!section || !track) return;
+
+      // Reduced motion: no pin, no horizontal translation — the track
+      // stays a plain vertical stack, fully reachable by native scroll.
+      if (prefersReducedMotion()) return;
 
       const mm = gsap.matchMedia();
       mm.add(`(min-width: ${minWidth}px)`, () => {

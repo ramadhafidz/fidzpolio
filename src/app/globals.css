@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+/* Lenis owns document scrolling when active; its companion rules are
+   required for correct behavior (html height, iframe pointer-events while
+   smoothing, overscroll containment for [data-lenis-prevent]). */
+@import 'lenis/dist/lenis.css';
+
 @source '../../src/**/*';
 
 /* Design tokens — spec: "Design Tokens" section, verbatim values */
