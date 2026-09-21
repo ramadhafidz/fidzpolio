@@ -1,7 +1,6 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { prefersReducedMotion } from './utils';
 
 let registered = false;
 
@@ -34,10 +33,15 @@ export function registerReactGsap() {
   );
 }
 
-/** Spec transition tokens. */
-export const EASE = { outExpo: 'cubic-bezier(0.16, 1, 0.3, 1)' } as const;
+/**
+ * Spec transition tokens.
+ *
+ * `outExpo` is the GSAP spelling of the spec's `cubic-bezier(0.16, 1, 0.3, 1)`.
+ * GSAP cannot parse the CSS `cubic-bezier(...)` string — `parseEase` returns
+ * undefined and the tween silently falls back to the default ease — so the
+ * JS token must use GSAP syntax. The CSS token in globals.css keeps the CSS
+ * spelling; both express the same curve.
+ */
+export const EASE = { outExpo: 'expo.out' } as const;
 
 export const DURATION = { fast: 0.3, normal: 0.6, slow: 1.2 } as const;
-
-/** When true, hooks should set end states and skip motion. */
-export const reducedMotion = prefersReducedMotion;

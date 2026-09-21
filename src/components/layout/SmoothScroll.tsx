@@ -16,12 +16,12 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     if (prefersReducedMotion()) return;
     const { gsap } = getGsap();
 
+    // lenis@1.3 publishes the instance on the ReactLenis ref (LenisRef.lenis),
+    // not on window.__lenis — that global is never set, so the ref is the
+    // only path. The `root` prop registers the instance in an internal
+    // module store, not on window.
     const ticker = (time: number) => {
-      if (typeof window !== 'undefined' && window.__lenis) {
-        window.__lenis.raf(time * 1000);
-      } else {
-        lenisRef.current?.lenis?.raf(time * 1000);
-      }
+      lenisRef.current?.lenis?.raf(time * 1000);
     };
     gsap.ticker.add(ticker);
     gsap.ticker.lagSmoothing(0);

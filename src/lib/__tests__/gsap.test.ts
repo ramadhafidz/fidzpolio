@@ -21,9 +21,17 @@ describe('getGsap', () => {
 
 describe('shared timing tokens', () => {
   it('matches the spec transition tokens', () => {
-    expect(EASE.outExpo).toBe('cubic-bezier(0.16, 1, 0.3, 1)');
+    // CSS spelling is recorded in globals.css as --ease-out-expo.
     expect(DURATION.fast).toBe(0.3);
     expect(DURATION.normal).toBe(0.6);
     expect(DURATION.slow).toBe(1.2);
+  });
+
+  it('EASE is a string GSAP can actually parse', () => {
+    // A CSS `cubic-bezier(...)` string is not a GSAP ease: parseEase returns
+    // undefined and the tween silently falls back to the default ease. The
+    // spec's curve is expo-like, so 'expo.out' is the JS spelling.
+    const parsed = getGsap().gsap.parseEase(EASE.outExpo);
+    expect(typeof parsed).toBe('function');
   });
 });
