@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactLenis, type LenisRef } from 'lenis/react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getGsap } from '@/lib/gsap';
 import { prefersReducedMotion } from '@/lib/utils';
 
@@ -10,9 +10,14 @@ import { prefersReducedMotion } from '@/lib/utils';
  * stays in sync. Disabled entirely under prefers-reduced-motion.
  */
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
+  // Read the preference in an effect, not in render: matchMedia during
+  // render would risk a hydration mismatch between the SSR output and a
+  // reduced-motion client. CustomCursor uses the same pattern.
+  const [reduced, setReduced] = useState(false);
   const lenisRef = useRef<LenisRef>(null);
 
   useEffect(() => {
+    setReduced(prefersReducedMotion());
     if (prefersReducedMotion()) return;
     const { gsap } = getGsap();
 
@@ -31,7 +36,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  if (prefersReducedMotion()) {
+  if (reduced) {
     return <>{children}</>;
   }
 
