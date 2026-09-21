@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
 import { Syne, Space_Grotesk } from 'next/font/google';
 import './globals.css';
+import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
+import { SmoothScroll } from '@/components/layout/SmoothScroll';
+import { CustomCursor } from '@/components/layout/CustomCursor';
 
 const syne = Syne({
   subsets: ['latin'],
@@ -39,7 +43,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${syne.variable} ${spaceGrotesk.variable}`}>
       <body className="bg-bg-primary text-text-secondary antialiased">
-        {children}
+        <SmoothScroll>
+          <CustomCursor />
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );
