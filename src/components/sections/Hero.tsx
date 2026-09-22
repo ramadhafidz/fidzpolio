@@ -1,7 +1,6 @@
 'use client';
 
 import { useSplitReveal } from '@/components/animations/useSplitReveal';
-import { useParallax } from '@/components/animations/useParallax';
 
 export function Hero() {
   const nameRef = useSplitReveal<HTMLHeadingElement>({
@@ -9,51 +8,30 @@ export function Hero() {
     stagger: 0.05,
     start: 'top 90%',
   });
-  const taglineRef = useSplitReveal<HTMLParagraphElement>({
-    type: 'lines',
-    stagger: 0.12,
-  });
-  const decorRef = useParallax<HTMLDivElement>({ distance: 30 });
 
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6"
+      className="relative flex min-h-screen flex-col justify-center overflow-hidden px-[var(--safe)] py-[var(--header-height)]"
     >
-      {/* Decorative lines animating in from edges */}
-      <div
-        ref={decorRef}
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-      >
-        <span className="absolute left-0 top-1/4 h-px w-1/4 bg-gradient-to-r from-accent/60 to-transparent" />
-        <span className="absolute right-0 top-2/3 h-px w-1/4 bg-gradient-to-l from-accent/60 to-transparent" />
+      <div className="mx-auto w-full max-w-[var(--layout-width)]">
+        <p className="mb-6 font-mono text-xs uppercase tracking-[0.1em] text-text-secondary">
+          Portfolio 2026
+        </p>
+
+        <h1 className="font-display uppercase leading-[0.8] tracking-[-0.03em] text-text-primary text-[clamp(2.75rem,14vw,9.5rem)]">
+          <span className="sr-only">Ramadhafidz</span>
+          <span ref={nameRef}>Ramadhafidz</span>
+        </h1>
+
+        <p className="mt-6 font-sans text-lg text-text-secondary md:text-2xl">
+          Creative Developer
+        </p>
       </div>
 
-      <p className="mb-4 text-xs uppercase tracking-[0.3em] text-text-muted">
-        Portfolio
-      </p>
-
-      <h1
-        className="font-display text-[clamp(3rem,12vw,10rem)] font-extrabold leading-[0.9] text-text-primary"
-      >
-        <span className="sr-only">Ramadhafidz</span>
-        <span ref={nameRef}>Ramadhafidz</span>
-      </h1>
-
-      <p
-        ref={taglineRef}
-        className="mt-6 overflow-hidden text-lg text-text-secondary md:text-2xl"
-      >
-        <span data-line className="block">Creative Developer</span>
-      </p>
-
-      <div className="mt-16 flex flex-col items-center gap-3 text-text-muted">
-        <span className="text-[0.65rem] uppercase tracking-[0.25em]">Scroll</span>
-        <span
-          aria-hidden
-          className="h-12 w-px animate-pulse bg-gradient-to-b from-accent to-transparent"
-        />
+      <div className="absolute bottom-8 left-[var(--safe)] flex items-center gap-3 text-text-secondary">
+        <span className="font-mono text-[0.65rem] uppercase tracking-[0.1em]">Scroll</span>
+        <span aria-hidden className="h-12 w-px bg-text-primary/40" />
       </div>
     </section>
   );
