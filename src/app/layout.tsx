@@ -1,21 +1,21 @@
 import type { Metadata } from 'next';
-import { Syne, Space_Grotesk } from 'next/font/google';
+import { Anton, Roboto } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
 import { CustomCursor } from '@/components/layout/CustomCursor';
 
-const syne = Syne({
+const anton = Anton({
   subsets: ['latin'],
-  variable: '--font-syne',
-  weight: ['600', '700', '800'],
+  variable: '--font-anton',
+  weight: '400',
   display: 'swap',
 });
 
-const spaceGrotesk = Space_Grotesk({
+const roboto = Roboto({
   subsets: ['latin'],
-  variable: '--font-space-grotesk',
+  variable: '--font-roboto',
   weight: ['400', '500', '700'],
   display: 'swap',
 });
@@ -41,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${syne.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={`${anton.variable} ${roboto.variable}`}>
       <body className="bg-bg-primary text-text-secondary antialiased">
         <CustomCursor />
         <SmoothScroll>

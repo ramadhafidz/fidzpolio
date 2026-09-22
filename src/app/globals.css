@@ -1,35 +1,52 @@
 @import 'tailwindcss';
-
-/* Lenis owns document scrolling when active; its companion rules are
-   required for correct behavior (html height, iframe pointer-events while
-   smoothing, overscroll containment for [data-lenis-prevent]). */
 @import 'lenis/dist/lenis.css';
 
 @source '../../src/**/*';
 
-/* Design tokens — spec: "Design Tokens" section, verbatim values */
+/* Design tokens — verified against lenis.dev's production stylesheet
+   (/_next/static/immutable/chunks/0_-6o03czf8qa.css). Three colors, no
+   accent; every variation is #efefef at reduced opacity. */
 @theme {
-  --color-bg-primary: #0a0a0a;
-  --color-bg-secondary: #141414;
-  --color-text-primary: #fafafa;
-  --color-text-secondary: #d4d4d4;
-  --color-text-muted: #737373;
-  --color-accent: #00f0ff;
-  --color-accent-glow: rgba(0, 240, 255, 0.15);
+  --color-bg: #000000;
+  --color-text-primary: #efefef;
+  --color-text-secondary: #b0b0b0;
+  --color-line: rgba(239, 239, 239, 0.1);
+  --color-line-strong: rgba(239, 239, 239, 0.5);
+  --color-line-mid: #8c8c8c;
+  --color-surface-hover: rgba(239, 239, 239, 0.03);
 
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
   --duration-fast: 0.3s;
   --duration-normal: 0.6s;
   --duration-slow: 1.2s;
 
-  --font-display: var(--font-syne), sans-serif;
-  --font-sans: var(--font-space-grotesk), sans-serif;
+  --font-display: var(--font-anton), sans-serif;
+  --font-sans: var(--font-roboto), sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
 }
 
 :root {
-  --section-padding: clamp(4rem, 10vh, 8rem);
-  --content-max-width: 1200px;
-  --blog-max-width: 720px;
+  /* lenis.dev's grid: 12 columns / 24px gap / 40px safe margin on desktop. */
+  --columns: 12;
+  --gap: 24px;
+  --safe: 16px;
+  --header-height: 56px;
+  --layout-width: 1320px;
+  --spacer-xs: 48px;
+  --spacer-sm: 64px;
+  --spacer-md: 80px;
+  --spacer-lg: 128px;
+  --spacer-xl: 192px;
+}
+
+@media (min-width: 800px) {
+  :root {
+    --safe: 40px;
+  }
 }
 
 html {
@@ -38,34 +55,15 @@ html {
 }
 
 body {
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-bg);
   color: var(--color-text-secondary);
   font-family: var(--font-sans);
   overflow-x: hidden;
 }
 
 ::selection {
-  background-color: var(--color-accent);
-  color: var(--color-bg-primary);
-}
-
-/* Grain overlay — CSS-only per spec (no image asset) */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* Custom cursor: dot is rendered by <CustomCursor />; this hides the
-   native cursor only when a pointer is available. */
-@media (hover: hover) and (pointer: fine) {
-  * {
-    cursor: none;
-  }
+  background-color: var(--color-text-primary);
+  color: var(--color-bg);
 }
 
 /* Reduced motion: never leave content hidden in a start state. */
