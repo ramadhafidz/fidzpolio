@@ -36,12 +36,18 @@ against the real CSS:
 
 - **"Off-black background"** — wrong. The background is literal `#000000`. lenis.dev is
   darker than this site, not warmer.
-- **"Monospace labels"** — wrong. There is no monospace font. The small uppercase labels
-  are Roboto with wide letter-spacing. Only three families exist: Anton, Roboto, Panchang.
+- **"No monospace labels"** — wrong, and this one materially changes the label treatment.
+  lenis.dev *does* use a monospace face for labels/rich text: `font-family: "Courier New",
+  Courier, monospace`. The small uppercase labels are monospace, not Roboto-with-tracking.
+- **"Three colors only"** — incomplete. The core palette is `#000` / `#efefef` / `#b0b0b0`,
+  but lenis.dev also carries a genuine **pink accent `#ff98a2`** (`--color-pink`,
+  `--color-contrast`, used 5× as `border-color: var(--theme-contrast)`, and with
+  `mix-blend-mode: difference` on the scroll hint), a single `#8c8c8c` mid-grey hairline,
+  and soft hairlines via `color-mix(in oklab, var(--theme-contrast) 50%, transparent)` and
+  a 30% variant. §3.1 records this as a deliberate deviation, not a faithful reading.
 - A draft circulated tokens named `--color-bg-card: #111`, `--color-text-muted: #666`,
   and `--font-mono: JetBrains Mono`. **None of these exist on lenis.dev.** They are not
-  used in this spec. lenis derives every variation from a single off-white via opacity;
-  this spec does the same.
+  used in this spec; the monospace label face is Courier New (§3.2), not a named variable.
 
 Unverified, and deliberately not specified: exact per-section spacing on lenis.dev is
 computed with viewport-relative `calc()` tied to a fixed `--device-width` of 1440/375.
@@ -50,16 +56,30 @@ result, maintainable in Tailwind.
 
 ## 3. Design tokens
 
-### 3.1 Palette — three colors, no accent
+### 3.1 Palette — monochrome, with lenis.dev's pink recorded as a deliberate omission
 
 | Token | Value | Source on lenis.dev |
 |---|---|---|
 | `--color-bg` | `#000000` | `--color-black` / `--color-primary: #000` |
-| `--color-text-primary` | `#efefef` | `--color-white` / `--color-contrast` |
+| `--color-text-primary` | `#efefef` | `--color-white` / `--color-secondary` |
 | `--color-text-secondary` | `#b0b0b0` | `--color-grey` |
-| `--color-line` | `rgba(239,239,239,0.10)` | derived from `#efefef` (their hairline pattern) |
-| `--color-line-strong` | `rgba(239,239,239,0.22)` | derived, for hover states |
-| `--color-surface-hover` | `rgba(239,239,239,0.03)` | derived |
+| `--color-line` | `rgba(239,239,239,0.10)` | `color-mix(in oklab, <contrast> 30%, transparent)` |
+| `--color-line-strong` | `rgba(239,239,239,0.50)` | `color-mix(in oklab, <contrast> 50%, transparent)` |
+| `--color-line-mid` | `#8c8c8c` | single `border-color: #8c8c8c` declaration |
+| `--color-surface-hover` | `rgba(239,239,239,0.03)` | derived hover fill |
+
+**Deliberate deviation, stated so it is not mistaken for an oversight:** lenis.dev has a
+real accent, pink `#ff98a2` (`--color-pink` / `--color-contrast`), used five times as
+`border-color: var(--theme-contrast)` and combined with `mix-blend-mode: difference` on the
+scroll hint. **This redesign omits it**, per the user's explicit choice of pure monochrome.
+The user's existing cyan `#00f0ff` is also dropped, so the site loses its accent rather than
+swapping one hue for another. Any future change of heart should restore `#ff98a2` — lenis.dev's
+actual accent — not the cyan.
+
+Derived rather than hard-coded: lenis.dev builds its soft hairlines with `color-mix(in oklab,
+…)`, and the spec mirrors that by deriving `--color-line` / `--color-line-strong` from
+`#efefef` via opacity. `--color-line-mid` is kept as a literal because it appears once as a
+plain `#8c8c8c` and a 50%-opacity white reads differently from that mid-grey.
 
 Deleted: `--color-accent: #00f0ff`, `--color-accent-glow`, `--color-bg-secondary: #141414`,
 `--color-text-muted: #737373`, `--color-text-primary: #fafafa`, `--color-text-secondary: #d4d4d4`.
@@ -73,6 +93,7 @@ cyan highlight.
 |---|---|---|
 | Display | **Anton** (`next/font/google`) | Replaces Syne. Weight 400 only — Anton is already heavy; all `font-extrabold`/`font-bold` on display type is removed. |
 | Body | **Roboto** (`next/font/google`) | Replaces Space Grotesk. lenis.dev's actual body face. |
+| Labels | **Courier New**, `monospace` | Corrected: lenis.dev uses `"Courier New", Courier, monospace` for labels/rich text. Previously this spec wrongly said there was no monospace face and prescribed Roboto-with-tracking. |
 | Section headings | Anton | Single display family. Panchang is not on Google Fonts and is not used. |
 
 Display type scale (px at desktop 1440 / mobile 375, from lenis.dev's own scale):
@@ -88,8 +109,10 @@ Display treatment, non-negotiable — this is what carries the mood once color i
 `text-transform: uppercase`, `line-height: 0.8–0.9`, `letter-spacing: -0.03em`.
 lenis.dev uses `line-height: .8`, `90%`, `100%` and `letter-spacing: -.03em` on display.
 
-Labels: `text-transform: uppercase` (8 uses on lenis.dev), Roboto, `letter-spacing` wide
-(we use `0.15–0.2em`), `12px`, `--color-text-secondary`.
+Labels: `text-transform: uppercase` (8 uses on lenis.dev), **Courier New monospace**,
+`12px`, `--color-text-secondary`. Note lenis.dev keeps label tracking at `letter-spacing: 0`
+(the tightness is the point); this spec widens ours slightly to `0.1em` for legibility at
+`12px` — a small, explicit deviation.
 
 ### 3.3 Radius, borders, shadows
 
@@ -98,8 +121,10 @@ Labels: `text-transform: uppercase` (8 uses on lenis.dev), Roboto, `letter-spaci
   Hard maximum anywhere in the product: **8px**, down from `rounded-2xl` (24px).
 - `rounded-full` is removed entirely — tags and buttons become hairline rectangles with
   `.25em` radius. lenis.dev has no pill shapes.
-- Borders: `1px solid var(--color-line)` for hairlines, used liberally (section rules,
-  card outlines, list separators, CTA box).
+- Borders are the primary structural device on lenis.dev: `1px` hairlines (plus a 2px and a
+  4px weight, and one responsive `≈1.4px`). Hairlines separate rows, outline cards, and box
+  the CTA. Note lenis.dev also carries two `border-style: dashed` uses — not adopted here;
+  our hairlines are all solid.
 - **`box-shadow` is forbidden.** lenis.dev's stylesheet contains zero box-shadow
   declarations and no blur glows. Depth comes from hairlines and type scale, not shadows.
 
@@ -152,13 +177,19 @@ New document order, with the old sections shown as absorbed:
 | 1 | `Header` | Navbar | Minimal fixed header + status pill |
 | 2 | `Hero` | Hero | Giant statement word + byline |
 | 3 | `Manifesto` ("Why work with me") | **About** | "Why smooth scroll?" + feature cards |
-| 4 | `Work` | **Projects** | "Lenis runs the web" marquee |
-| 5 | `Capabilities` | **Skills** | "Lenis brings the heat" numbered `01–07` list |
+| 4 | `Work` ("Selected Work") | **Projects** | "Lenis runs the web" marquee |
+| 5 | `Capabilities` | **Skills** | "Lenis brings the heat" numbered list |
 | 6 | `ContactCTA` | **Contact** | "As it should be" bordered box |
 | 7 | `Footer` | Footer | Minimal hairline footer |
 
 Section `id`s change to `hero`, `manifesto`, `work`, `capabilities`, `contact`. Navbar
 anchor links are updated to match.
+
+A page-level detail this spec adopts: lenis.dev runs a **fixed scroll-progress hairline at
+the top of the viewport** (`transform: scaleX(progress)`, `transform-origin: 0 50%`, hidden
+under `@media (hover: none)`) — the only persistent UI chrome on the page. §4.8 specifies a
+monochrome equivalent, driven by Lenis scroll progress, replacing the current navbar's
+opaque scroll state as the primary scroll cue.
 
 ### 4.1 Header
 
@@ -222,6 +253,16 @@ render as muted non-links, preserving the current behaviour.
 Hairline top rule, three columns: wordmark/copyright, build note, back-to-top. Unchanged
 in spirit, restyled to the token set.
 
+### 4.8 ScrollProgress
+
+A fixed `1px`-tall hairline pinned to the top of the viewport, `#efefef`, scaled horizontally
+with scroll: `transform: scaleX(progress)`, `transform-origin: 0 50%`. On lenis.dev this is
+the only persistent UI chrome. It reads the scroll progress off the Lenis instance (or
+`window.scrollY / scrollHeight` as a fallback when Lenis is bypassed under reduced motion)
+and is hidden on coarse pointers (`@media (hover: none)`). Because the header already sits at
+`top: 0`, the hairline renders *above* the header (`z-index` higher) — the header's bottom
+hairline is retained for its scrolled state, and the progress line is the page-level cue.
+
 ## 5. Content data
 
 - `src/content/projects.ts` — type is reused as-is. Display gains a derived year from the
@@ -255,6 +296,7 @@ in spirit, restyled to the token set.
 | `Skills` → `Capabilities` | **Rewrite** as numbered list. |
 | `Contact` → `ContactCTA` | **Rewrite** as bordered box; form deleted. |
 | `Footer` | **Restyle**. |
+| `ScrollProgress` | **New.** Fixed top hairline scaled by scroll progress (§4.8). |
 | `public/projects/*.svg` | **Delete.** |
 
 Dead-code rule: components removed by this redesign are **deleted**, not left as unused
@@ -295,9 +337,9 @@ Existing tests, and their fate:
 | `useGsapFadeIn.test.tsx` | **Keep unchanged.** |
 | `projects.test.ts` / `skills.test.ts` | **Keep**; extend skills test for the new `description` field. |
 
-New tests: `useMarquee` (static layout under reduced motion, no hidden content), and
-render tests for `Work` (one card per featured project) and `Capabilities` (one row per
-group).
+New tests: `useMarquee` (static layout under reduced motion, no hidden content), render
+tests for `Work` (one card per featured project) and `Capabilities` (one row per group), and
+`ScrollProgress` (renders the hairline element; the fallback path must not hide it).
 
 Zero-regression rule: every retained test file stays green and unchanged except where
 this section explicitly requires an update. No test is weakened to make a component pass.
@@ -308,7 +350,7 @@ For the implementation plan that follows this spec:
 
 1. Tokens, `globals.css`, fonts in `layout.tsx` (Anton + Roboto in, Syne + Space Grotesk
    out), grain and cursor rules removed.
-2. `Header`.
+2. `Header` + `ScrollProgress`.
 3. `Hero`.
 4. `Manifesto`; delete `About`, its glow and photo stub.
 5. `useMarquee`; rewrite `Projects` → `Work`.
