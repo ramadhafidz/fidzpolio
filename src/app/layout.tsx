@@ -5,6 +5,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
 import { CustomCursor } from '@/components/layout/CustomCursor';
+import { ScrollProgress } from '@/components/layout/ScrollProgress';
 
 const anton = Anton({
   subsets: ['latin'],
@@ -42,7 +43,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${anton.variable} ${roboto.variable}`}>
-      <body className="bg-bg-primary text-text-secondary antialiased">
+      <body className="bg-bg text-text-secondary antialiased">
+        <ScrollProgress />
         <CustomCursor />
         <SmoothScroll>
           <Navbar />
