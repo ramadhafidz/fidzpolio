@@ -27,16 +27,19 @@ export function Projects() {
         <SectionHeading className="mb-12">Selected Projects</SectionHeading>
       </div>
 
-      {/* Desktop: pinned horizontal track. Mobile: vertical stack. */}
+      {/* Desktop ≥1024px: pinned horizontal track. Below that: vertical stack,
+          which must match useHorizontalPin's minWidth — a horizontal
+          flex-nowrap track with no pin and body{overflow-x:hidden} would
+          clip cards 2–3 with no way to reach them. */}
       <div
         data-track
-        className="flex flex-col gap-8 px-6 md:flex-row md:flex-nowrap md:gap-10 md:px-10 lg:gap-16"
+        className="flex flex-col gap-8 px-6 md:px-10 lg:flex-row lg:flex-nowrap lg:gap-16"
       >
         {featured.map((project, index) => (
           <article
             key={project.slug}
             data-cursor="hover"
-            className="group relative w-full shrink-0 md:w-[60vw] lg:w-[55vw]"
+            className="group relative w-full shrink-0 lg:w-[55vw]"
           >
             <span className="absolute -top-10 left-0 font-display text-6xl font-extrabold text-white/5">
               {String(index + 1).padStart(2, '0')}
