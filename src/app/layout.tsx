@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Anton, Roboto } from 'next/font/google';
 import './globals.css';
-import { Navbar } from '@/components/layout/Navbar';
+import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
 import { CustomCursor } from '@/components/layout/CustomCursor';
@@ -47,7 +47,7 @@ export default function RootLayout({
         <ScrollProgress />
         <CustomCursor />
         <SmoothScroll>
-          <Navbar />
+          <Header />
           {children}
           <Footer />
         </SmoothScroll>

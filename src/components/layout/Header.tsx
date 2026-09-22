@@ -4,18 +4,18 @@ import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 const LINKS = [
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Skills', href: '#skills' },
+  { label: 'Manifesto', href: '#manifesto' },
+  { label: 'Work', href: '#work' },
+  { label: 'Capabilities', href: '#capabilities' },
   { label: 'Contact', href: '#contact' },
 ] as const;
 
-export function Navbar() {
+export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 56);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -37,17 +37,16 @@ export function Navbar() {
       className={cn(
         'fixed inset-x-0 top-0 z-[9000] transition-colors duration-normal',
         scrolled
-          ? 'border-b border-white/5 bg-bg-primary/80 backdrop-blur-md'
+          ? 'border-b border-line bg-bg'
           : 'border-b border-transparent bg-transparent',
       )}
     >
-      <nav className="mx-auto flex max-w-[var(--content-max-width)] items-center justify-between px-6 py-5 md:px-10">
+      <nav className="mx-auto flex h-[var(--header-height)] max-w-[var(--layout-width)] items-center justify-between px-[var(--safe)]">
         <a
           href="#hero"
-          data-cursor="hover"
-          className="font-display text-lg font-bold tracking-tight text-text-primary"
+          className="font-sans text-sm font-bold uppercase tracking-[0.15em] text-text-primary"
         >
-          Ramadhafidz
+          RAMADHAFIDZ
         </a>
 
         <ul className="hidden items-center gap-8 md:flex">
@@ -55,21 +54,17 @@ export function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                data-cursor="hover"
-                className="text-sm text-text-secondary transition-colors duration-fast hover:text-accent"
+                className="font-mono text-xs uppercase tracking-[0.1em] text-text-secondary transition-colors duration-fast hover:text-text-primary"
               >
                 {link.label}
               </a>
             </li>
           ))}
-          <li>
-            <a
-              href="#contact"
-              data-cursor="hover"
-              className="rounded-full border border-accent/40 px-4 py-2 text-sm text-accent transition-colors duration-fast hover:bg-accent hover:text-bg-primary"
-            >
-              Let&rsquo;s Talk
-            </a>
+          <li className="flex items-center gap-2 border border-line px-3 py-1.5">
+            <span aria-hidden className="h-1.5 w-1.5 rounded-xs bg-text-primary" />
+            <span className="font-mono text-[0.65rem] uppercase tracking-[0.1em] text-text-primary">
+              Available for work
+            </span>
           </li>
         </ul>
 
@@ -80,23 +75,22 @@ export function Navbar() {
           aria-controls="mobile-menu"
           onClick={() => setMenuOpen((v) => !v)}
           className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
-          data-cursor="hover"
         >
           <span
             className={cn(
-              'h-0.5 w-6 bg-text-primary transition-transform duration-fast',
+              'h-px w-6 bg-text-primary transition-transform duration-fast',
               menuOpen && 'translate-y-2 rotate-45',
             )}
           />
           <span
             className={cn(
-              'h-0.5 w-6 bg-text-primary transition-opacity duration-fast',
+              'h-px w-6 bg-text-primary transition-opacity duration-fast',
               menuOpen && 'opacity-0',
             )}
           />
           <span
             className={cn(
-              'h-0.5 w-6 bg-text-primary transition-transform duration-fast',
+              'h-px w-6 bg-text-primary transition-transform duration-fast',
               menuOpen && '-translate-y-2 -rotate-45',
             )}
           />
@@ -115,7 +109,7 @@ export function Navbar() {
         inert={!menuOpen}
         className={cn(
           'fixed inset-0 top-0 z-[-1] flex flex-col items-center justify-center gap-8',
-          'bg-bg-primary transition-opacity duration-normal md:hidden',
+          'bg-bg transition-opacity duration-normal md:hidden',
           menuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
         )}
       >
@@ -124,7 +118,7 @@ export function Navbar() {
             key={link.href}
             href={link.href}
             onClick={() => setMenuOpen(false)}
-            className="font-display text-4xl font-bold text-text-primary"
+            className="font-display uppercase leading-none text-text-primary text-4xl"
           >
             {link.label}
           </a>
