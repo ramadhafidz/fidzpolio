@@ -45,7 +45,13 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       root
       ref={lenisRef}
       options={{
-        lerp: 0.1,
+        // Duration + easing, not lerp: lerp (0.1 is the library default)
+        // decays asymptotically, so the tail never really commits and every
+        // flick adds a lingering drift. A fixed duration with an exponential
+        // easing curve lands the scroll precisely and is what gives lenis.dev
+        // its weighty-but-decisive glide.
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         // Lenis would otherwise schedule its own requestAnimationFrame loop
         // on top of the one we drive from the GSAP ticker below, advancing
         // scroll on a different clock than ScrollTrigger reads it.
