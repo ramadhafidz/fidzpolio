@@ -36,7 +36,7 @@ export function registerReactGsap() {
 /**
  * Spec transition tokens.
  *
- * `outExpo` is the GSAP spelling of the spec's `cubic-bezier(0.16, 1, 0.3, 1)`.
+ * `outExpo` is the GSAP spelling of the spec's `cubic-bezier(.19, 1, .22, 1)`.
  * GSAP cannot parse the CSS `cubic-bezier(...)` string — `parseEase` returns
  * undefined and the tween silently falls back to the default ease — so the
  * JS token must use GSAP syntax. The CSS token in globals.css keeps the CSS

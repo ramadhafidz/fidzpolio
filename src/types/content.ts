@@ -12,11 +12,11 @@ export interface Project {
 
 export interface SkillGroup {
   category: string;
+  /** One line of copy for the capability row. Optional — a row renders without it. */
+  description?: string;
   items: Skill[];
 }
 
 export interface Skill {
   name: string;
-  /** Local SVG path, or undefined for a text-only chip. */
-  icon?: string;
 }

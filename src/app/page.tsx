@@ -1,17 +1,17 @@
 import { Hero } from '@/components/sections/Hero';
-import { About } from '@/components/sections/About';
-import { Projects } from '@/components/sections/Projects';
-import { Skills } from '@/components/sections/Skills';
-import { Contact } from '@/components/sections/Contact';
+import { Manifesto } from '@/components/sections/Manifesto';
+import { Work } from '@/components/sections/Work';
+import { Capabilities } from '@/components/sections/Capabilities';
+import { ContactCTA } from '@/components/sections/ContactCTA';
 
 export default function Home() {
   return (
     <main>
       <Hero />
-      <About />
-      <Projects />
-      <Skills />
-      <Contact />
+      <Manifesto />
+      <Work />
+      <Capabilities />
+      <ContactCTA />
     </main>
   );
 }

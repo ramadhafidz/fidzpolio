@@ -9,4 +9,13 @@ describe('skills', () => {
       expect(group.items.length).toBeGreaterThan(0);
     });
   });
+
+  it('carries a description when one is provided', () => {
+    // Optional field — present groups must keep their copy.
+    skills.forEach((group) => {
+      if (group.description !== undefined) {
+        expect(typeof group.description).toBe('string');
+      }
+    });
+  });
 });

@@ -1,23 +1,21 @@
 'use client';
 
 export function Footer() {
-  const scrollTop = () =>
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
-    <footer className="border-t border-white/5 py-10">
-      <div className="mx-auto flex max-w-[var(--content-max-width)] flex-col items-center justify-between gap-6 px-6 md:flex-row md:px-10">
-        <p className="text-sm text-text-muted">
+    <footer className="border-t border-line">
+      <div className="mx-auto flex max-w-[var(--layout-width)] flex-col items-center justify-between gap-6 px-[var(--safe)] py-10 md:flex-row">
+        <p className="font-mono text-xs uppercase tracking-[0.1em] text-text-secondary">
           &copy; 2026 Ramadhafidz
         </p>
-        <p className="text-sm text-text-muted">
+        <p className="font-mono text-xs uppercase tracking-[0.1em] text-text-secondary">
           Built with Next.js &amp; GSAP
         </p>
         <button
           type="button"
           onClick={scrollTop}
-          data-cursor="hover"
-          className="text-sm text-text-secondary transition-colors duration-fast hover:text-accent"
+          className="font-mono text-xs uppercase tracking-[0.1em] text-text-primary transition-opacity duration-fast hover:opacity-60"
         >
           Back to top &uarr;
         </button>

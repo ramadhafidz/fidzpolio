@@ -21,8 +21,8 @@ export function SectionHeading({
     <Tag
       ref={ref}
       className={cn(
-        'font-display text-4xl font-bold leading-[0.95] text-text-primary',
-        'md:text-6xl',
+        'font-display uppercase leading-[0.9] tracking-[-0.03em] text-text-primary',
+        'text-4xl md:text-6xl',
         className,
       )}
     >

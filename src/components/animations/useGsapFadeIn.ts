@@ -20,7 +20,7 @@ export function useGsapFadeIn<T extends HTMLElement = HTMLDivElement>(
 ) {
   const ref = useRef<T>(null);
   const {
-    y = 40,
+    y = 24,
     duration = DURATION.normal,
     delay = 0,
     stagger = 0,

@@ -3,16 +3,14 @@ import { render, screen } from '@testing-library/react';
 import Home from '../page';
 
 describe('Home', () => {
-  it('renders all five sections in order', () => {
+  it('renders all sections in the new order', () => {
     const { container } = render(<Home />);
-    const ids = Array.from(container.querySelectorAll('section[id]')).map(
-      (el) => el.id,
-    );
-    expect(ids).toEqual(['hero', 'about', 'projects', 'skills', 'contact']);
+    const ids = Array.from(container.querySelectorAll('section[id]')).map((el) => el.id);
+    expect(ids).toEqual(['hero', 'manifesto', 'work', 'capabilities', 'contact']);
   });
 
-  it('renders the projects gallery', () => {
+  it('renders the work gallery heading', () => {
     render(<Home />);
-    expect(screen.getByRole('heading', { name: 'Selected Projects' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Selected Work' })).toBeInTheDocument();
   });
 });

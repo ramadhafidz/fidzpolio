@@ -4,7 +4,6 @@ import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
-import { CustomCursor } from '@/components/layout/CustomCursor';
 import { ScrollProgress } from '@/components/layout/ScrollProgress';
 
 const anton = Anton({
@@ -45,7 +44,6 @@ export default function RootLayout({
     <html lang="en" className={`${anton.variable} ${roboto.variable}`}>
       <body className="bg-bg text-text-secondary antialiased">
         <ScrollProgress />
-        <CustomCursor />
         <SmoothScroll>
           <Header />
           {children}

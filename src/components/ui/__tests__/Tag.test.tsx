@@ -7,11 +7,8 @@ describe('Tag', () => {
     expect(render(<Tag>GSAP</Tag>).getByText('GSAP')).toBeInTheDocument();
   });
 
-  it('marks itself as a cursor hover target', () => {
+  it('renders as a hairline chip, not a pill', () => {
     const { getByText } = render(<Tag>GSAP</Tag>);
-    expect(getByText('GSAP').closest('[data-cursor]')).toHaveAttribute(
-      'data-cursor',
-      'hover',
-    );
+    expect(getByText('GSAP').className).toContain('rounded-sm');
   });
 });

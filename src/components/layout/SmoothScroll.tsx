@@ -12,7 +12,7 @@ import { prefersReducedMotion } from '@/lib/utils';
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   // Read the preference in an effect, not in render: matchMedia during
   // render would risk a hydration mismatch between the SSR output and a
-  // reduced-motion client. CustomCursor uses the same pattern.
+  // reduced-motion client.
   const [reduced, setReduced] = useState(false);
   const lenisRef = useRef<LenisRef>(null);
 

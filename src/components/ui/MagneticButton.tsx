@@ -53,21 +53,21 @@ export function MagneticButton({
   );
 
   const classes = cn(
-    'group inline-flex items-center gap-2 rounded-full border border-text-muted/40',
+    'group inline-flex items-center gap-2 rounded-sm border border-line',
     'px-6 py-3 font-sans text-sm font-medium text-text-primary transition-colors',
-    'duration-normal hover:border-accent hover:text-accent',
+    'duration-normal hover:border-line-strong',
     className,
   );
 
   if (href) {
     return (
-      <a ref={ref} href={href} data-cursor="hover" className={classes}>
+      <a ref={ref} href={href} className={classes}>
         {children}
       </a>
     );
   }
   return (
-    <button ref={ref} type="button" data-cursor="hover" className={classes}>
+    <button ref={ref} type="button" className={classes}>
       {children}
     </button>
   );
